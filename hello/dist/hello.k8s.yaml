@@ -25,7 +25,10 @@ spec:
         app: "hello-k8s"
     spec:
       containers:
-        - image: "pahud/flask-docker-sample:latest"
+        - env:
+            - name: "PLATFORM"
+              value: "Amazon EKS(cdk8s+argocd)"
+          image: "pahud/flask-docker-sample:latest"
           name: "flask-service"
           ports:
             - containerPort: 80

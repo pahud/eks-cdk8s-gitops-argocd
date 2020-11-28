@@ -32,7 +32,13 @@ export class MyChart extends Chart {
               {
                 name: 'flask-service',
                 image: 'pahud/flask-docker-sample:latest',
-                ports: [ { containerPort: 80 } ]
+                ports: [ { containerPort: 80 } ],
+                env: [
+                  {
+                    name: 'PLATFORM',
+                    value: 'Amazon EKS(cdk8s+argocd)'
+                  }
+                ]
               }
             ]
           }

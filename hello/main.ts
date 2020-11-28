@@ -14,14 +14,14 @@ export class MyChart extends Chart {
     new KubeService(this, 'service', {
       spec: {
         type: 'LoadBalancer',
-        ports: [ { port: 80, targetPort: IntOrString.fromNumber(8080) } ],
+        ports: [ { port: 80, targetPort: IntOrString.fromNumber(80) } ],
         selector: label
       }
     });
 
     new KubeDeployment(this, 'deployment', {
       spec: {
-        replicas: 2,
+        replicas: 3,
         selector: {
           matchLabels: label
         },
@@ -30,9 +30,9 @@ export class MyChart extends Chart {
           spec: {
             containers: [
               {
-                name: 'hello-kubernetes',
-                image: 'paulbouwer/hello-kubernetes:1.7',
-                ports: [ { containerPort: 8080 } ]
+                name: 'flask-service',
+                image: 'pahud/flask-docker-sample:latest',
+                ports: [ { containerPort: 80 } ]
               }
             ]
           }

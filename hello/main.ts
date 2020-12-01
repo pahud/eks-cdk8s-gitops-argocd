@@ -7,29 +7,69 @@ import { App, Chart, ChartProps } from 'cdk8s';
 // cdk8s+
 import * as kplus from 'cdk8s-plus-17';
 
+export interface ContainerEnvVar {
+  [name: string]: kplus.EnvValue;
+}
+
+export interface MicroServiceProps {
+  readonly image: string;
+  /**
+   * service port
+   * @default - 80
+   */
+  readonly servicePort?: number;
+  /**
+   * container port
+   * @default - 80
+   */
+  readonly containerPort?: number;
+  /**
+   * number of replicas
+   * @default 2
+   */
+  readonly replica?: number;
+  /**
+   * env var for the container
+   */
+  readonly env?: ContainerEnvVar;
+  /**
+   * service type
+   * @default LOAD_BALANCER
+   */
+  readonly serviceType?: kplus.ServiceType;
+}
+
+export class MicroService extends Construct {
+  constructor(scope: Construct, id: string, props: MicroServiceProps) {
+    super(scope, id)
+    const deploy = new kplus.Deployment(this, 'Deployment', {
+      replicas: props.replica ?? 2,
+      containers: [{
+        image: props.image,
+        env: props.env,
+      }],
+    });
+
+    deploy.expose(props.servicePort ?? 80, {
+      serviceType: props.serviceType ?? kplus.ServiceType.LOAD_BALANCER, 
+      targetPort: props.containerPort ?? 80,
+    })
+  }
+}
+
 
 export class MyChart extends Chart {
   constructor(scope: Construct, id: string, props: ChartProps = { }) {
     super(scope, id, props);
 
-    // const label = { app: 'hello-k8s' };
-
-    const deploy = new kplus.Deployment(this, 'Deployment', {
-      replicas: 3,
-      containers: [{
-        image: 'pahud/flask-docker-sample:latest',
-        env: {
-          'PLATFORM': {
-            value: 'CDK8S+',
-          }
-        }
-      }],
+    new MicroService(this, 'flask-service', {
+      image: 'pahud/flask-docker-sample:latest',
+      env: {
+        'PLATFORM': { value: 'CDK8S+ haha'}
+      }
     });
 
-    deploy.expose(80, {
-      serviceType: kplus.ServiceType.LOAD_BALANCER, 
-      targetPort: 80,
-    })
+    // const label = { app: 'hello-k8s' };
 
     // new KubeService(this, 'service', {
     //   spec: {

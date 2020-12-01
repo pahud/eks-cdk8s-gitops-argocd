@@ -96,7 +96,7 @@ export class MyChart extends Chart {
                 env: [
                   {
                     name: 'PLATFORM',
-                    value: 'Amazon EKS(cdk8s+argo)'
+                    value: 'Amazon EKS(cdk8s+argocdk)'
                   }
                 ]
               }

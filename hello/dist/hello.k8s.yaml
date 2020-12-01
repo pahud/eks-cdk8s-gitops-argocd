@@ -1,34 +1,37 @@
-apiVersion: "v1"
-kind: "Service"
-metadata:
-  name: "hello-service-c8c17160"
-spec:
-  ports:
-    - port: 80
-      targetPort: 80
-  selector:
-    app: "hello-k8s"
-  type: "LoadBalancer"
----
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
-  name: "hello-deployment-c8c7fda7"
+  name: "hello-deployment-c8309733"
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: "hello-k8s"
+      cdk8s.deployment: "hello-Deployment-c8632cdc"
   template:
     metadata:
       labels:
-        app: "hello-k8s"
+        cdk8s.deployment: "hello-Deployment-c8632cdc"
     spec:
       containers:
         - env:
             - name: "PLATFORM"
-              value: "Amazon EKS(cdk8s+argocd)"
-          image: "pahud/flask-docker-sample:latest"
-          name: "flask-service"
-          ports:
-            - containerPort: 80
+              value: "CDK8S+"
+          image: "ubuntu"
+          imagePullPolicy: "Always"
+          name: "main"
+          ports: []
+          volumeMounts: []
+      volumes: []
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "hello-deployment-service-c8fc5b18"
+spec:
+  externalIPs: []
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    cdk8s.deployment: "hello-Deployment-c8632cdc"
+  type: "LoadBalancer"

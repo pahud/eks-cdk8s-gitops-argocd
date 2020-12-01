@@ -1,21 +1,21 @@
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
-  name: "hello-deployment-c8309733"
+  name: "hello-flask-service-deployment-c8c647d8"
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
-      cdk8s.deployment: "hello-Deployment-c8632cdc"
+      cdk8s.deployment: "hello-flask-service-Deployment-c8f575f2"
   template:
     metadata:
       labels:
-        cdk8s.deployment: "hello-Deployment-c8632cdc"
+        cdk8s.deployment: "hello-flask-service-Deployment-c8f575f2"
     spec:
       containers:
         - env:
             - name: "PLATFORM"
-              value: "CDK8S+"
+              value: "CDK8S+ haha"
           image: "pahud/flask-docker-sample:latest"
           imagePullPolicy: "Always"
           name: "main"
@@ -26,12 +26,12 @@ spec:
 apiVersion: "v1"
 kind: "Service"
 metadata:
-  name: "hello-deployment-service-c8fc5b18"
+  name: "hello-flask-service-deployment-service-c8cb7792"
 spec:
   externalIPs: []
   ports:
     - port: 80
       targetPort: 80
   selector:
-    cdk8s.deployment: "hello-Deployment-c8632cdc"
+    cdk8s.deployment: "hello-flask-service-Deployment-c8f575f2"
   type: "LoadBalancer"

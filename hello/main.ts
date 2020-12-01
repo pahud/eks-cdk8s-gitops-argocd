@@ -17,7 +17,7 @@ export class MyChart extends Chart {
     const deploy = new kplus.Deployment(this, 'Deployment', {
       replicas: 3,
       containers: [{
-        image: 'ubuntu',
+        image: 'pahud/flask-docker-sample:latest',
         env: {
           'PLATFORM': {
             value: 'CDK8S+',

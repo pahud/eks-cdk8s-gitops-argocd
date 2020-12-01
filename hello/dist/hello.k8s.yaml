@@ -16,7 +16,7 @@ spec:
         - env:
             - name: "PLATFORM"
               value: "CDK8S+"
-          image: "ubuntu"
+          image: "pahud/flask-docker-sample:latest"
           imagePullPolicy: "Always"
           name: "main"
           ports: []

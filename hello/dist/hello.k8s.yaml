@@ -27,7 +27,7 @@ spec:
       containers:
         - env:
             - name: "PLATFORM"
-              value: "Amazon EKS(cdk8s+argocd)"
+              value: "Amazon EKS(cdk8s+argo)"
           image: "pahud/flask-docker-sample:latest"
           name: "flask-service"
           ports:
